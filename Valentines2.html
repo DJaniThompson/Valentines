@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error 404</title>
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, sans-serif;
+            background-color: #222;
+            color: white;
+            transition: background-color 1s, color 1s;
+            overflow: hidden;
+            position: relative;
+        }
+        .container {
+            margin-top: 100px;
+        }
+        h1 {
+            font-size: 3em;
+        }
+        p {
+            font-size: 1.5em;
+        }
+        .hidden {
+            display: none;
+        }
+        .btn-container {
+            margin-top: 20px;
+        }
+        .btn {
+            font-size: 1.5em;
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .refresh-btn {
+            background-color: blue;
+            color: white;
+            border-radius: 5px;
+        }
+        .yes-btn {
+            background-color: red;
+            color: white;
+            border-radius: 5px;
+        }
+        .no-btn {
+            background-color: gray;
+            color: white;
+            border-radius: 5px;
+            position: absolute;
+        }
+        /* Valentine's Theme */
+        .heart {
+            position: absolute;
+            color: red;
+            font-size: 24px;
+            animation: float 5s linear infinite;
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) scale(0.5);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="error-message">
+        <h1>💔 Error 404 💔</h1>
+        <p>Page Not Found</p>
+        <p>Try refreshing...</p>
+        <button class="btn refresh-btn" onclick="refreshPage()">Click to Refresh</button>
+    </div>
+
+    <div class="container hidden" id="valentine-message">
+        <h1>💕 Will you be my Valentine? 💕</h1>
+        <div class="btn-container">
+            <button class="btn yes-btn" onclick="alert('Yay! ❤️')">Yes</button>
+            <button class="btn no-btn" id="noBtn">No</button>
+        </div>
+    </div>
+
+    <script>
+        function refreshPage() {
+            sessionStorage.setItem("visited", "true");
+            location.reload();
+        }
+
+        // Check if the page was refreshed
+        if (sessionStorage.getItem("visited")) {
+            document.body.style.backgroundColor = "pink";
+            document.body.style.color = "black";
+            document.title = "Be My Valentine?";
+            document.getElementById("error-message").classList.add("hidden");
+            document.getElementById("valentine-message").classList.remove("hidden");
+
+            // Add floating hearts
+            for (let i = 0; i < 20; i++) {
+                let heart = document.createElement("div");
+                heart.classList.add("heart");
+                heart.innerHTML = "❤️";
+                heart.style.left = Math.random() * window.innerWidth + "px";
+                heart.style.animationDuration = (Math.random() * 3 + 2) + "s";
+                document.body.appendChild(heart);
+
+                setTimeout(() => {
+                    heart.remove();
+                }, 5000);
+            }
+        }
+
+        // Move the "No" button when hovered or clicked
+        document.getElementById("noBtn").addEventListener("mouseover", moveButton);
+        document.getElementById("noBtn").addEventListener("click", moveButton);
+
+        function moveButton() {
+            const x = Math.random() * (window.innerWidth - 100);
+            const y = Math.random() * (window.innerHeight - 100);
+            this.style.left = `${x}px`;
+            this.style.top = `${y}px`;
+        }
+    </script>
+
+</body>
+</html>
